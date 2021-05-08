@@ -19,6 +19,7 @@ R6 y R3, se configura el protocolo vrrp desde que se le asigna la ip, R6 |f0/0|-
     exit
     do write
     end
+    copy running-config startup-config
 ```
 
 ## R3
@@ -43,6 +44,7 @@ R6 y R3, se configura el protocolo vrrp desde que se le asigna la ip, R6 |f0/0|-
     exit
     do write
     end
+    copy running-config startup-config
 ```
 
 ## R4
@@ -60,6 +62,7 @@ R6 y R3, se configura el protocolo vrrp desde que se le asigna la ip, R6 |f0/0|-
     no shutdown
     exit
     end
+    copy running-config startup-config
 ```
 
 ## R5
@@ -73,6 +76,7 @@ R6 y R3, se configura el protocolo vrrp desde que se le asigna la ip, R6 |f0/0|-
     do write
     interface f0/0
     ip address 10.19.128.4 255.255.192.0
+    standby 1 ip 10.19.128.128
     do write
     no shutdown
     exit
@@ -84,6 +88,7 @@ R6 y R3, se configura el protocolo vrrp desde que se le asigna la ip, R6 |f0/0|-
     exit
     do write
     end
+    copy running-config startup-config
 ```
 
 ## R7
@@ -92,6 +97,8 @@ R6 y R3, se configura el protocolo vrrp desde que se le asigna la ip, R6 |f0/0|-
     configure terminal
     interface f0/0
     ip address 10.19.128.5 255.255.192.0
+    standby 1 ip 10.19.128.128
+    standby 1 priority 150
     no shutdown
     exit
     do write
@@ -101,6 +108,7 @@ R6 y R3, se configura el protocolo vrrp desde que se le asigna la ip, R6 |f0/0|-
     exit
     do write
     end
+    copy running-config startup-config
 ```
 
 
@@ -117,6 +125,34 @@ R6 y R3, se configura el protocolo vrrp desde que se le asigna la ip, R6 |f0/0|-
     exit
     do write
     end
+    copy running-config startup-config
 ```
 
-# HSRP
+
+# VISUALIZAR
+
+## VRRP
+
+### R6, R3
+```
+    show vrrp brief
+```
+
+## HSRP
+
+### R7, R5
+```
+    show standby brief
+```
+
+## RIP
+
+### R's todas
+```
+    show ip route
+```
+
+## IP's
+```
+    show ip interface brief
+```
