@@ -1,5 +1,14 @@
 # Topología 2
 
+## Cálculo de subredes
+
+| VLAN  | Hosts S. | Host E. | Dirección de red | Máscara | Máscara punteada | Primera IP válida | Última IP válida |    Broadcast    |
+| :---: | :------: | :-----: | :--------------: | :-----: | :--------------: | :---------------: | :--------------: | :-------------: |
+|  30   |   122    |   126   |  192.168.119.0   |   /25   | 255.255.255.128  |   192.168.119.1   | 192.168.119.126  | 192.168.119.127 |
+|  40   |    36    |   62    | 192.168.119.128  |   /26   | 255.255.255.192  |  192.168.119.129  | 192.168.119.190  | 192.168.119.191 |
+|  10   |    21    |   30    | 192.168.119.192  |   /27   | 255.255.255.224  |  192.168.119.193  | 192.168.119.222  | 192.168.119.223 |
+|  20   |    8     |   14    | 192.168.119.224  |   /28   | 255.255.255.240  |  192.168.119.225  | 192.168.119.238  | 192.168.119.239 |
+
 ## Port channels
 
 Switch 1
@@ -132,6 +141,7 @@ exit
 interface port-channel 2
 switchport mode trunk
 switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+no shutdown
 exit
 
 do wri
@@ -149,16 +159,19 @@ exit
 interface port-channel 3
 switchport mode trunk
 switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+no shutdown
 exit
 
 interface port-channel 5
 switchport mode trunk
 switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+no shutdown
 exit
 
 interface range fastEthernet 1/14 - 15
 switchport mode trunk
 switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+no shutdown
 exit
 
 do wri
@@ -176,15 +189,19 @@ exit
 interface port-channel 4
 switchport mode trunk
 switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+no shutdown
+exit
 
 interface port-channel 5
 switchport mode trunk
 switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+no shutdown
 exit
 
 interface range fastEthernet 1/14 - 15
 switchport mode trunk
 switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+no shutdown
 exit
 
 do wri
@@ -202,14 +219,30 @@ exit
 interface port-channel 4
 switchport mode trunk
 switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+no shutdown
 exit
 
 interface range fastEthernet 1/14 - 15
 switchport mode trunk
 switchport trunk allowed vlan 1,10,20,30,40,1002-1005
+no shutdown
 exit
 
 do wri
+```
+
+## Agregar STP si no está
+
+```bash
+configure terminal
+
+spanning-tree vlan 10 root primary
+spanning-tree vlan 20 root primary
+spanning-tree vlan 30 root primary
+spanning-tree vlan 40 root primary
+end
+
+sh spanning-tree root
 ```
 
 ## Enrutamiento InterVLAN
@@ -241,6 +274,7 @@ exit
 
 interface fastEthernet 0/0
 no shutdown
+exit
 
 do wri
 ```
@@ -280,5 +314,26 @@ do wri
 Router
 
 ```bash
+configure terminal
+
+interface fastEthernet 0/1
+ip address 10.19.0.30 255.255.192.0
+no shutdown
+exit
+
+do wri
+
+ip route 10.19.0.0 255.255.192.0 10.19.0.60
+ip route 10.19.64.0 255.255.192.0 10.19.0.60
+ip route 10.19.128.0 255.255.192.0 10.19.0.60
+ip route 10.19.192.0 255.255.192.0 10.19.0.60
+
+ip route 192.168.19.0 255.255.255.224 10.19.0.60
+ip route 192.168.19.32 255.255.255.224 10.19.0.60
+ip route 192.168.19.64 255.255.255.224 10.19.0.60
+ip route 192.168.19.96 255.255.255.224 10.19.0.60
+ip route 192.168.19.128 255.255.255.224 10.19.0.60
+
+do wri
 
 ```
