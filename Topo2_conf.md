@@ -2,6 +2,22 @@
 
 ## Cálculo de subredes
 
+Subneteo por VLSM
+
+- Red disponible: `192.168.119.0 / 24`
+- Subredes:
+  - Ventas: 93 hosts + 32% = 122 hosts
+  - Base de datos: 31 hosts + 18% = 36 hosts
+  - RRHH: 21 hosts
+  - Contabilidad: 8 hosts
+- VLANS
+  - 30 VENTAS
+  - 40 INFORMÁTICA
+  - 10 RHUMANOS
+  - 20 CONTABILIDAD
+
+> La primera ip válida será para el gateway
+
 | VLAN  | Hosts S. | Host E. | Dirección de red | Máscara | Máscara punteada | Primera IP válida | Última IP válida |    Broadcast    |
 | :---: | :------: | :-----: | :--------------: | :-----: | :--------------: | :---------------: | :--------------: | :-------------: |
 |  30   |   122    |   126   |  192.168.119.0   |   /25   | 255.255.255.128  |   192.168.119.1   | 192.168.119.126  | 192.168.119.127 |
